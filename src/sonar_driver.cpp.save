@@ -3,10 +3,10 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Range.h>
 
-#include "wiringSerial.h"
+#include <wiringSerial.h>
 
 int main(int argc, char** argv){
-
+  
   // Initialize ROS
   ros::init(argc, argv, "sonar_driver");
 
@@ -18,35 +18,33 @@ int main(int argc, char** argv){
   int fd ;
   if ((fd = serialOpen ("/dev/ttyACM0", 9600)) < 0)
   {
-    ROS_INFO("Unable to open serial device.\n");
-    ros::shutdown();
+    ROS_INFO( "Unable to open serial de);
     return 1 ;
   }
 
   // While the node is running, try to get data from the sensor
   while(n.ok()){
 
-    // This call will block the program until it is able to get data from the serial port
+    // This call will block the program for 10 seconds until there is data to read
     char c = serialGetchar(fd);
 
     // Sensor sends data in the format of Rxxx, where each of the x is a number and the three numbers form the measure in inches
     // If a R character is read, the next three digits represent the measure
-    if ( c == 'R' )
+    if ( char == 'R' )
     {
-      // Variable to store the measure
-      int inches = 0;
+      // Variable to store the data
+      int value = 0;
 
-      // Read the next three digits and store the equivalent value in inches
-      // Use ( c - '0' ) to convert the character to its corresponding integer value
+      // Read the next 3 characters and store in the variable
       c = serialGetchar(fd);
-      inches += 100 * ( c - '0' );
+      value += 100 * static_cast<int>( c );
       c = serialGetchar(fd);
-      inches += 10 * ( c - '0' );
+      value += 10 * static_cast<int>( c );
       c = serialGetchar(fd);
-      inches += ( c - '0' );
+      value += static_cast<int>( c );
 
       // Convert to meters
-      double meters = static_cast< double >( inches ) * 0.0254;
+      value = value * 0.0254;
 
       // Get current time to fill the header of the message
       ros::Time scan_time = ros::Time::now();
@@ -59,13 +57,11 @@ int main(int argc, char** argv){
       msg.field_of_view = 0;
       msg.min_range = 0.15;
       msg.max_range = 6.45;
-      msg.range = meters;
+      msg.range = value;
 
       // Publish the message
       sonar_pub.publish(msg);
 
-      // Discard extra data received
-      serialFlush(fd);
     }
   }
 }
