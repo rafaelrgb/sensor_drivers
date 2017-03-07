@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="sensor_drivers" type="sonar_driver" name="sonar_driver" output="screen" />
+</launch>

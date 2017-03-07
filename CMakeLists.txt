@@ -10,12 +10,11 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 catkin_package(
-    INCLUDE_DIRS include
+    INCLUDE_DIRS
     CATKIN_DEPENDS roscpp sensor_msgs
 )
 
 include_directories(
-    include
     ${catkin_INCLUDE_DIRS}
 )
 
