@@ -1,5 +1,3 @@
-#include <time.h>
-
 #include <ros/ros.h>
 #include <sensor_msgs/Range.h>
 
@@ -68,4 +66,6 @@ int main(int argc, char** argv){
       serialFlush(fd);
     }
   }
+
+  return 0;
 }

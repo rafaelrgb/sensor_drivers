@@ -27,6 +27,14 @@ set(H_FILES
 set(CPP_FILES
 )
 
-add_executable(sonar_driver src/sonar_driver.cpp ${CPP_FILES})
-add_dependencies(sonar_driver ${catkin_EXPORTED_TARGETS} wiringPi)
-target_link_libraries(sonar_driver ${catkin_LIBRARIES} ${WIRINGPI_LIBRARY})
+add_executable(sonar_driver_serial src/sonar_driver_serial.cpp ${CPP_FILES})
+add_dependencies(sonar_driver_serial ${catkin_EXPORTED_TARGETS} wiringPi)
+target_link_libraries(sonar_driver_serial ${catkin_LIBRARIES} ${WIRINGPI_LIBRARY})
+
+add_executable(sonar_driver_pwm src/sonar_driver_pwm.cpp ${CPP_FILES})
+add_dependencies(sonar_driver_pwm ${catkin_EXPORTED_TARGETS} wiringPi)
+target_link_libraries(sonar_driver_pwm ${catkin_LIBRARIES} ${WIRINGPI_LIBRARY})
+
+add_executable(sonar_driver_undersample src/sonar_driver_undersample.cpp ${CPP_FILES})
+add_dependencies(sonar_driver_undersample ${catkin_EXPORTED_TARGETS} wiringPi)
+target_link_libraries(sonar_driver_undersample ${catkin_LIBRARIES} ${WIRINGPI_LIBRARY})
